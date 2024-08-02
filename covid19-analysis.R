@@ -1,5 +1,8 @@
 ## Task 1 Data Preparation
 
+# Load the data
+covid19_malaysia <- read.csv('covid19_malaysia.csv', header=TRUE)
+
 # Check for missing values
 missing_values <- sum(is.na(covid19_malaysia))
 
@@ -29,4 +32,32 @@ if (sno_type =='integer' && date_type =='character' && state_type == 'character'
 
 
 ## Task 2 Data Exploration
+
+
+summary <- summary(covid19_malaysia)
+row_count <- nrow(covid19_malaysia)
+
+max_confirmed <- max(covid19_malaysia$cases_new)
+day_max_confirmed <- covid19_malaysia$date[covid19_malaysia$cases_new==max_confirmed]
+
+max_cured <- max(covid19_malaysia$cases_recovered)
+day_max_cured <- covid19_malaysia$date[covid19_malaysia$cases_recovered==max_cured]
+
+# Create visualizations to show the distribution of COVID-19 cases
+library(ggplot2)
+ggplot(covid19_malaysia, aes(x=date, y=cases_new)) + geom_line()
+
+
+## Task 3 Data Manipulation
+
+# Aggregate the data to calculate the average number of cured, deaths, and confirmed cases all over countries.
+total_cases_count = sum(covid19_malaysia$cases_new)
+total_cured_count = sum(covid19_malaysia$cases_recovered)
+total_month_count = sum((2023-2020+1)*12+7)
+
+# Calculate the average number of cases for each month.
+average_cases_per_month = total_cases_count/total_month_count
+
+
+## Task 4 Data Analysis
 
