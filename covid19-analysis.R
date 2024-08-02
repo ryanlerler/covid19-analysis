@@ -34,29 +34,83 @@ if (sno_type =='integer' && date_type =='character' && state_type == 'character'
 ## Task 2 Data Exploration
 
 
+# Summary, no. of records, max. no. of confirmed and cured cases
 summary <- summary(covid19_malaysia)
+print("Summary of the dataset's statistics: ")
+print(summary)
+
 row_count <- nrow(covid19_malaysia)
+print("Total number of record in the dataset: ")
+print(row_count)
 
 max_confirmed <- max(covid19_malaysia$cases_new)
 day_max_confirmed <- covid19_malaysia$date[covid19_malaysia$cases_new==max_confirmed]
+print("The day with the highest number of confirmed cases: ")
+print(day_max_confirmed)
 
 max_cured <- max(covid19_malaysia$cases_recovered)
 day_max_cured <- covid19_malaysia$date[covid19_malaysia$cases_recovered==max_cured]
+print("The day with the highest number of cured cases: ")
+print(day_max_cured)
 
-# Create visualizations to show the distribution of COVID-19 cases
+# Distribution of COVID-19 cases
 library(ggplot2)
 ggplot(covid19_malaysia, aes(x=date, y=cases_new)) + geom_line()
 
 
 ## Task 3 Data Manipulation
 
-# Aggregate the data to calculate the average number of cured, deaths, and confirmed cases all over countries.
-total_cases_count = sum(covid19_malaysia$cases_new)
-total_cured_count = sum(covid19_malaysia$cases_recovered)
-total_month_count = sum((2023-2020+1)*12+7)
+# Total no. of confirmed and cured cases by year
+# library(stringr)
+# for(i in covid19_malaysia$date){
+#   print(unique(str_sub(i, -4,-1)))
+# }
 
-# Calculate the average number of cases for each month.
-average_cases_per_month = total_cases_count/total_month_count
+total_cases_count_2020 = sum(covid19_malaysia$cases_new[1:5472])
+total_cases_count_2021 = sum(covid19_malaysia$cases_new[5473:11312])
+total_cases_count_2022 = sum(covid19_malaysia$cases_new[11313:17152])
+total_cases_count_2023 = sum(covid19_malaysia$cases_new[17153:22992])
+total_cases_count_2024 = sum(covid19_malaysia$cases_new[22993:26000])
+
+total_cured_count_2020 = sum(covid19_malaysia$cases_recovered[1:5472])
+total_cured_count_2021 = sum(covid19_malaysia$cases_recovered[5473:11312])
+total_cured_count_2022 = sum(covid19_malaysia$cases_recovered[11313:17152])
+total_cured_count_2023 = sum(covid19_malaysia$cases_recovered[17153:22992])
+total_cured_count_2024 = sum(covid19_malaysia$cases_recovered[22993:26000])
+
+# Average no. of confirmed and cured cases per month by year
+average_cases_per_month_2020 = total_cases_count_2020/12
+average_cases_per_month_2021 = total_cases_count_2021/12
+average_cases_per_month_2022 = total_cases_count_2022/12
+average_cases_per_month_2023 = total_cases_count_2023/12
+average_cases_per_month_2024 = total_cases_count_2024/7
+
+average_cured_per_month_2020 = total_cured_count_2020/12
+average_cured_per_month_2021 = total_cured_count_2021/12
+average_cured_per_month_2022 = total_cured_count_2022/12
+average_cured_per_month_2023 = total_cured_count_2023/12
+average_cured_per_month_2024 = total_cured_count_2024/7
+
+# Total no. of confirmed and cured cases by state
+print('Total no. of confirmed cases by state: ')
+for(i in unique(covid19_malaysia$state)){
+  print(paste(i, ':' , sum(covid19_malaysia$cases_new[covid19_malaysia$state==i])))
+}
+
+print('Total no. of cured cases by state: ')
+for(i in unique(covid19_malaysia$state)){
+  print(paste(i, ':' , sum(covid19_malaysia$cases_recovered[covid19_malaysia$state==i])))
+}
+
+
+# Total no. of confirmed and cured cases from Jan 2020 to Jul 2024
+grand_total_cases_count = sum(covid19_malaysia$cases_new)
+grand_total_cured_count = sum(covid19_malaysia$cases_recovered)
+grand_total_month_count = sum((2023-2020+1)*12+7)
+
+# Average no. of confirmed and cured cases per month from Jan 2020 to Jul 2024
+grand_average_cases_per_month = grand_total_cases_count/grand_total_month_count
+grand_average_cured_per_month = grand_total_cured_count/grand_total_month_count
 
 
 ## Task 4 Data Analysis
